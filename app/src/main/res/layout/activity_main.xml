@@ -14,4 +14,12 @@
         android:text="我的飞机大战"
         app:layout_constraintTop_toTopOf="parent" />
 
+    <TextView
+        android:id="@+id/btn_demo1"
+        android:layout_width="match_parent"
+        android:layout_height="50dp"
+        android:gravity="center"
+        android:text="飞机大战一"
+        app:layout_constraintTop_toBottomOf="@id/btn_mine_plane" />
+
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -1,0 +1,29 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".mine.GameActivity">
+
+    <!-- 自定义 View 必须在xml 中写 xmlns:app -->
+    <com.zyk.demo.code.demo1.view.GameView1
+        android:id="@+id/gameView"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent">
+
+    </com.zyk.demo.code.demo1.view.GameView1>
+
+    <TextView
+        android:id="@+id/btn_control"
+        android:layout_width="100dp"
+        android:layout_height="50dp"
+        android:background="#000000"
+        android:gravity="center"
+        android:text="暂停"
+        android:textColor="#FFFFFF"
+        android:textSize="18sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+</androidx.constraintlayout.widget.ConstraintLayout>

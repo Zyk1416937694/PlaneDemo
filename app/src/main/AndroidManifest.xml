@@ -25,6 +25,9 @@
         <activity android:name=".mine.GameActivity">
 
         </activity>
+        <activity android:name=".demo1.GameActivity1">
+
+        </activity>
     </application>
 
 </manifest>
