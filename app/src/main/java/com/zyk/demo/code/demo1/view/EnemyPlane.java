@@ -64,8 +64,8 @@ public class EnemyPlane extends AutoSprite {
     //创建爆炸效果后会销毁敌机
     public void explode(GameView1 gameView) {
         //创建爆炸效果
-        float centerX = getX() + getWidth() / 2;
-        float centerY = getY() + getHeight() / 2;
+        int centerX = getX() + getWidth() / 2;
+        int centerY = getY() + getHeight() / 2;
         Bitmap bitmap = gameView.getExplosionBitmap();
         Explosion explosion = new Explosion(bitmap);
         explosion.centerTo(centerX, centerY);

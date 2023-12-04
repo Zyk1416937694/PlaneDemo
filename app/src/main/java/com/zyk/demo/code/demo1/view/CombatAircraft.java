@@ -69,19 +69,20 @@ public class CombatAircraft extends Sprite {
             return;
         }
 
-        float x = getX() + getWidth() / 2;
-        float y = getY() - 5;
+        int y = getY() - 5;
         if (single) {
             //单发模式下发射单发黄色子弹
             Bitmap yellowBulletBitmap = gameView.getYellowBulletBitmap();
             Bullet yellowBullet = new Bullet(yellowBulletBitmap);
+            int x = getX() + getWidth() / 2 - yellowBulletBitmap.getWidth() / 2;
             yellowBullet.moveTo(x, y);
             gameView.addSprite(yellowBullet);
         } else {
+            int x = getX() + getWidth() / 2;
             //双发模式下发射两发蓝色子弹
-            float offset = getWidth() / 4;
-            float leftX = x - offset;
-            float rightX = x + offset;
+            int offset = getWidth() / 4;
+            int leftX = x - offset;
+            int rightX = x + offset;
             Bitmap blueBulletBitmap = gameView.getBlueBulletBitmap();
 
             Bullet leftBlueBullet = new Bullet(blueBulletBitmap);
@@ -172,8 +173,8 @@ public class CombatAircraft extends Sprite {
         if (!collide) {
             collide = true;
             setVisibility(false);
-            float centerX = getX() + getWidth() / 2;
-            float centerY = getY() + getHeight() / 2;
+            int centerX = getX() + getWidth() / 2;
+            int centerY = getY() + getHeight() / 2;
             Explosion explosion = new Explosion(gameView.getExplosionBitmap());
             explosion.centerTo(centerX, centerY);
             gameView.addSprite(explosion);

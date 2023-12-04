@@ -12,8 +12,8 @@ import android.graphics.RectF;
  */
 public class Sprite {
     private boolean visible = true;
-    private float x = 0;
-    private float y = 0;
+    private int x = 0;
+    private int y = 0;
     private float collideOffset = 0;
     private Bitmap bitmap = null;
     private boolean destroyed = false;
@@ -35,30 +35,30 @@ public class Sprite {
         return visible;
     }
 
-    public void setX(float x) {
+    public void setX(int x) {
         this.x = x;
     }
 
-    public float getX() {
+    public int getX() {
         return x;
     }
 
-    public void setY(float y) {
+    public void setY(int y) {
         this.y = y;
     }
 
-    public float getY() {
+    public int getY() {
         return y;
     }
 
-    public float getWidth() {
+    public int getWidth() {
         if (bitmap != null) {
             return bitmap.getWidth();
         }
         return 0;
     }
 
-    public float getHeight() {
+    public int getHeight() {
         if (bitmap != null) {
             return bitmap.getHeight();
         }
@@ -70,14 +70,14 @@ public class Sprite {
         y += offsetY;
     }
 
-    public void moveTo(float x, float y) {
+    public void moveTo(int x, int y) {
         this.x = x;
         this.y = y;
     }
 
-    public void centerTo(float centerX, float centerY) {
-        float w = getWidth();
-        float h = getHeight();
+    public void centerTo(int centerX, int centerY) {
+        int w = getWidth();
+        int h = getHeight();
         x = centerX - w / 2;
         y = centerY - h / 2;
     }
@@ -155,5 +155,9 @@ public class Sprite {
 
     public int getFrame() {
         return frame;
+    }
+
+    public Rect getCurrentRect() {
+        return new Rect(x,  y, x + getWidth(), y + getHeight());
     }
 }

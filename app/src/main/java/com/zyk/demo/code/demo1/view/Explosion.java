@@ -19,7 +19,7 @@ public class Explosion extends Sprite {
     }
 
     @Override
-    public float getWidth() {
+    public int getWidth() {
         Bitmap bitmap = getBitmap();
         if (bitmap != null) {
             return bitmap.getWidth() / segment;

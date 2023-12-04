@@ -53,8 +53,8 @@ public class GameView1 extends View {
     private long lastSingleClickTime = -1;//上次发生单击的时刻
     private long touchDownTime = -1;//触点按下的时刻
     private long touchUpTime = -1;//触点弹起的时刻
-    private float touchX = -1;//触点的x坐标
-    private float touchY = -1;//触点的y坐标
+    private int touchX = -1;//触点的x坐标
+    private int touchY = -1;//触点的y坐标
 
     public GameView1(Context context) {
         super(context);
@@ -158,8 +158,8 @@ public class GameView1 extends View {
 
         //第一次绘制时，将战斗机移到Canvas最下方，在水平方向的中心
         if (frame == 0) {
-            float centerX = canvas.getWidth() / 2;
-            float centerY = canvas.getHeight() - combatAircraft.getHeight() / 2;
+            int centerX = canvas.getWidth() / 2;
+            int centerY = canvas.getHeight() - combatAircraft.getHeight() / 2;
             combatAircraft.centerTo(centerX, centerY);
         }
 
@@ -411,10 +411,10 @@ public class GameView1 extends View {
         }
 
         if (sprite != null) {
-            float spriteWidth = sprite.getWidth();
-            float spriteHeight = sprite.getHeight();
-            float x = (float) ((canvasWidth - spriteWidth) * Math.random());
-            float y = -spriteHeight;
+            int spriteWidth = sprite.getWidth();
+            int spriteHeight = sprite.getHeight();
+            int x = (int) ((canvasWidth - spriteWidth) * Math.random());
+            int y = -spriteHeight;
             sprite.setX(x);
             sprite.setY(y);
             if (sprite instanceof AutoSprite) {
@@ -427,6 +427,8 @@ public class GameView1 extends View {
 
     /*-------------------------------touch------------------------------------*/
 
+    private final int touchWith = 30;// 手指的半径
+
     @Override
     public boolean onTouchEvent(MotionEvent event) {
         //通过调用resolveTouchType方法，得到我们想要的事件类型
@@ -436,7 +438,11 @@ public class GameView1 extends View {
         if (status == STATUS_GAME_STARTED) {
             if (touchType == TOUCH_MOVE) {
                 if (combatAircraft != null) {
-                    combatAircraft.centerTo(touchX, touchY);
+                    Rect touchRect = new Rect(touchX - touchWith, touchY - touchWith, touchX + touchWith, touchY + touchWith);
+                    if (Rect.intersects(touchRect, combatAircraft.getCurrentRect())) {
+                        //移动玩家战机
+                        combatAircraft.centerTo(touchX, touchY);
+                    }
                 }
             } else if (touchType == TOUCH_DOUBLE_CLICK) {
                 if (status == STATUS_GAME_STARTED) {
@@ -462,8 +468,8 @@ public class GameView1 extends View {
     private int resolveTouchType(MotionEvent event) {
         int touchType = -1;
         int action = event.getAction();
-        touchX = event.getX();
-        touchY = event.getY();
+        touchX = (int) event.getX();
+        touchY = (int) event.getY();
         if (action == MotionEvent.ACTION_MOVE) {
             long deltaTime = System.currentTimeMillis() - touchDownTime;
             if (deltaTime > singleClickDurationTime) {
@@ -525,7 +531,7 @@ public class GameView1 extends View {
         return singleClick;
     }
 
-    private void onSingleClick(float x, float y) {
+    private void onSingleClick(int x, int y) {
         if (status == STATUS_GAME_STARTED) {
             if (isClickPause(x, y)) {
                 //单击了暂停按钮
@@ -545,19 +551,19 @@ public class GameView1 extends View {
     }
 
     //是否单击了左上角的暂停按钮
-    private boolean isClickPause(float x, float y) {
+    private boolean isClickPause(int x, int y) {
         RectF pauseRecF = getPauseBitmapDstRecF();
         return pauseRecF.contains(x, y);
     }
 
     //是否单击了暂停状态下的“继续”那妞
-    private boolean isClickContinueButton(float x, float y) {
-        return continueRect.contains((int) x, (int) y);
+    private boolean isClickContinueButton(int x, int y) {
+        return continueRect.contains(x, y);
     }
 
     //是否单击了GAME OVER状态下的“重新开始”按钮
-    private boolean isClickRestartButton(float x, float y) {
-        return continueRect.contains((int) x, (int) y);
+    private boolean isClickRestartButton(int x, int y) {
+        return continueRect.contains(x, y);
     }
 
     private RectF getPauseBitmapDstRecF() {
