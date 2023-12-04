@@ -14,14 +14,14 @@ public class Explosion extends Sprite {
     private int level = 0;//最开始处于爆炸的第0片段
     private int explodeFrequency = 2;//每个爆炸片段绘制2帧
 
-    public Explosion(Bitmap bitmap){
+    public Explosion(Bitmap bitmap) {
         super(bitmap);
     }
 
     @Override
     public float getWidth() {
         Bitmap bitmap = getBitmap();
-        if(bitmap != null){
+        if (bitmap != null) {
             return bitmap.getWidth() / segment;
         }
         return 0;
@@ -30,18 +30,18 @@ public class Explosion extends Sprite {
     @Override
     public Rect getBitmapSrcRec() {
         Rect rect = super.getBitmapSrcRec();
-        int left = (int)(level * getWidth());
+        int left = (int) (level * getWidth());
         rect.offsetTo(left, 0);
         return rect;
     }
 
     @Override
     protected void afterDraw(Canvas canvas, Paint paint, GameView1 gameView) {
-        if(!isDestroyed()){
-            if(getFrame() % explodeFrequency == 0){
+        if (!isDestroyed()) {
+            if (getFrame() % explodeFrequency == 0) {
                 //level自加1，用于绘制下个爆炸片段
                 level++;
-                if(level >= segment){
+                if (level >= segment) {
                     //当绘制完所有的爆炸片段后，销毁爆炸效果
                     destroy();
                 }
@@ -50,7 +50,7 @@ public class Explosion extends Sprite {
     }
 
     //得到绘制完整爆炸效果需要的帧数，即28帧
-    public int getExplodeDurationFrame(){
+    public int getExplodeDurationFrame() {
         return segment * explodeFrequency;
     }
 }

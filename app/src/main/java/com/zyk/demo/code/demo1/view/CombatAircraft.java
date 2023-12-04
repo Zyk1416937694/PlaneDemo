@@ -26,59 +26,58 @@ public class CombatAircraft extends Sprite {
     private int flushFrequency = 16;//在闪烁的时候，每隔16帧转变战斗机的可见性
     private int maxFlushTime = 10;//最大闪烁次数
 
-    public CombatAircraft(Bitmap bitmap){
+    public CombatAircraft(Bitmap bitmap) {
         super(bitmap);
     }
 
     @Override
     protected void beforeDraw(Canvas canvas, Paint paint, GameView1 gameView) {
-        if(!isDestroyed()){
+        if (!isDestroyed()) {
             //确保战斗机完全位于Canvas范围内
             validatePosition(canvas);
 
             //每隔7帧发射子弹
-            if(getFrame() % 7 == 0){
+            if (getFrame() % 7 == 0) {
                 fight(gameView);
             }
         }
     }
 
     //确保战斗机完全位于Canvas范围内
-    private void validatePosition(Canvas canvas){
-        if(getX() < 0){
+    private void validatePosition(Canvas canvas) {
+        if (getX() < 0) {
             setX(0);
         }
-        if(getY() < 0){
+        if (getY() < 0) {
             setY(0);
         }
         RectF rectF = getRectF();
         int canvasWidth = canvas.getWidth();
-        if(rectF.right > canvasWidth){
+        if (rectF.right > canvasWidth) {
             setX(canvasWidth - getWidth());
         }
         int canvasHeight = canvas.getHeight();
-        if(rectF.bottom > canvasHeight){
+        if (rectF.bottom > canvasHeight) {
             setY(canvasHeight - getHeight());
         }
     }
 
     //发射子弹
-    public void fight(GameView1 gameView){
+    public void fight(GameView1 gameView) {
         //如果战斗机被撞击了或销毁了，那么不会发射子弹
-        if(collide || isDestroyed()){
+        if (collide || isDestroyed()) {
             return;
         }
 
         float x = getX() + getWidth() / 2;
         float y = getY() - 5;
-        if(single){
+        if (single) {
             //单发模式下发射单发黄色子弹
             Bitmap yellowBulletBitmap = gameView.getYellowBulletBitmap();
             Bullet yellowBullet = new Bullet(yellowBulletBitmap);
             yellowBullet.moveTo(x, y);
             gameView.addSprite(yellowBullet);
-        }
-        else{
+        } else {
             //双发模式下发射两发蓝色子弹
             float offset = getWidth() / 4;
             float leftX = x - offset;
@@ -94,7 +93,7 @@ public class CombatAircraft extends Sprite {
             gameView.addSprite(rightBlueBullet);
 
             doubleTime++;
-            if(doubleTime >= maxDoubleTime){
+            if (doubleTime >= maxDoubleTime) {
                 single = true;
                 doubleTime = 0;
             }
@@ -105,17 +104,17 @@ public class CombatAircraft extends Sprite {
     //具体来说，首先隐藏战斗机，然后创建爆炸效果，爆炸用28帧渲染完成
     //爆炸效果完全渲染完成后，爆炸效果消失
     //然后战斗机会进入闪烁模式，战斗机闪烁一定次数后销毁
-    protected void afterDraw(Canvas canvas, Paint paint, GameView1 gameView){
-        if(isDestroyed()){
+    protected void afterDraw(Canvas canvas, Paint paint, GameView1 gameView) {
+        if (isDestroyed()) {
             return;
         }
 
         //在飞机当前还没有被击中时，要判断是否将要被敌机击中
-        if(!collide){
+        if (!collide) {
             List<EnemyPlane> enemies = gameView.getAliveEnemyPlanes();
-            for(EnemyPlane enemyPlane : enemies){
+            for (EnemyPlane enemyPlane : enemies) {
                 Point p = getCollidePointWithOther(enemyPlane);
-                if(p != null){
+                if (p != null) {
                     //p为战斗机与敌机的碰撞点，如果p不为null，则表明战斗机被敌机击中
                     explode(gameView);
                     break;
@@ -125,15 +124,15 @@ public class CombatAircraft extends Sprite {
 
         //beginFlushFrame初始值为0，表示没有进入闪烁模式
         //如果beginFlushFrame大于0，表示要在第如果beginFlushFrame帧进入闪烁模式
-        if(beginFlushFrame > 0){
+        if (beginFlushFrame > 0) {
             long frame = getFrame();
             //如果当前帧数大于等于beginFlushFrame，才表示战斗机进入销毁前的闪烁状态
-            if(frame >= beginFlushFrame){
-                if((frame - beginFlushFrame) % flushFrequency == 0){
+            if (frame >= beginFlushFrame) {
+                if ((frame - beginFlushFrame) % flushFrequency == 0) {
                     boolean visible = getVisibility();
                     setVisibility(!visible);
                     flushTime++;
-                    if(flushTime >= maxFlushTime){
+                    if (flushTime >= maxFlushTime) {
                         //如果战斗机闪烁的次数超过了最大的闪烁次数，那么销毁战斗机
                         destroy();
                         //Game.gameOver();
@@ -143,12 +142,12 @@ public class CombatAircraft extends Sprite {
         }
 
         //在没有被击中的情况下检查是否获得了道具
-        if(!collide){
+        if (!collide) {
             //检查是否获得炸弹道具
             List<BombAward> bombAwards = gameView.getAliveBombAwards();
-            for(BombAward bombAward : bombAwards){
+            for (BombAward bombAward : bombAwards) {
                 Point p = getCollidePointWithOther(bombAward);
-                if(p != null){
+                if (p != null) {
                     bombAwardCount++;
                     bombAward.destroy();
                     //Game.receiveBombAward();
@@ -157,9 +156,9 @@ public class CombatAircraft extends Sprite {
 
             //检查是否获得子弹道具
             List<BulletAward> bulletAwards = gameView.getAliveBulletAwards();
-            for(BulletAward bulletAward : bulletAwards){
+            for (BulletAward bulletAward : bulletAwards) {
                 Point p = getCollidePointWithOther(bulletAward);
-                if(p != null){
+                if (p != null) {
                     bulletAward.destroy();
                     single = false;
                     doubleTime = 0;
@@ -169,8 +168,8 @@ public class CombatAircraft extends Sprite {
     }
 
     //战斗机爆炸
-    private void explode(GameView1 gameView){
-        if(!collide){
+    private void explode(GameView1 gameView) {
+        if (!collide) {
             collide = true;
             setVisibility(false);
             float centerX = getX() + getWidth() / 2;
@@ -183,30 +182,30 @@ public class CombatAircraft extends Sprite {
     }
 
     //获取可用的炸弹数量
-    public int getBombCount(){
+    public int getBombCount() {
         return bombAwardCount;
     }
 
     //战斗机使用炸弹
-    public void bomb(GameView1 gameView){
-        if(collide || isDestroyed()){
+    public void bomb(GameView1 gameView) {
+        if (collide || isDestroyed()) {
             return;
         }
 
-        if(bombAwardCount > 0){
+        if (bombAwardCount > 0) {
             List<EnemyPlane> enemyPlanes = gameView.getAliveEnemyPlanes();
-            for(EnemyPlane enemyPlane : enemyPlanes){
+            for (EnemyPlane enemyPlane : enemyPlanes) {
                 enemyPlane.explode(gameView);
             }
             bombAwardCount--;
         }
     }
 
-    public boolean isCollide(){
+    public boolean isCollide() {
         return collide;
     }
 
-    public void setNotCollide(){
+    public void setNotCollide() {
         collide = false;
     }
 }

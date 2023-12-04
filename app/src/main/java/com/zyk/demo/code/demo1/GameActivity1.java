@@ -15,7 +15,7 @@ public class GameActivity1 extends Activity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_game_1);
-        gameView = (GameView1)findViewById(R.id.gameView);
+        gameView = (GameView1) findViewById(R.id.gameView);
         int[] bitmapIds = {
                 R.mipmap.plane,
                 R.mipmap.explosion,
@@ -36,7 +36,7 @@ public class GameActivity1 extends Activity {
     @Override
     protected void onPause() {
         super.onPause();
-        if(gameView != null){
+        if (gameView != null) {
             gameView.pause();
         }
     }
@@ -44,7 +44,7 @@ public class GameActivity1 extends Activity {
     @Override
     protected void onDestroy() {
         super.onDestroy();
-        if(gameView != null){
+        if (gameView != null) {
             gameView.destroy();
         }
         gameView = null;

@@ -14,7 +14,7 @@ public class Award extends AutoSprite {
 
     private int status = STATUS_DOWN1;
 
-    public Award(Bitmap bitmap){
+    public Award(Bitmap bitmap) {
         super(bitmap);
         setSpeed(7);
     }
@@ -22,30 +22,29 @@ public class Award extends AutoSprite {
     @Override
     protected void afterDraw(Canvas canvas, Paint paint, GameView1 gameView) {
         //在afterDraw中不调用super.afterDraw方法
-        if(!isDestroyed()){
+        if (!isDestroyed()) {
             //在绘制一定次数后要改变方向或速度
             int canvasHeight = canvas.getHeight();
-            if(status != STATUS_DOWN3){
+            if (status != STATUS_DOWN3) {
                 float maxY = getY() + getHeight();
-                if(status == STATUS_DOWN1){
+                if (status == STATUS_DOWN1) {
                     //第一次向下
-                    if(maxY >= canvasHeight * 0.25){
+                    if (maxY >= canvasHeight * 0.25) {
                         //当第一次下降到临界值时改变方向，向上
                         setSpeed(-5);
                         status = STATUS_UP2;
                     }
-                }
-                else if(status == STATUS_UP2){
+                } else if (status == STATUS_UP2) {
                     //第二次向上
-                    if(maxY+this.getSpeed() <= 0){
+                    if (maxY + this.getSpeed() <= 0) {
                         //第二次上升到临界值时改变方向，向下
                         setSpeed(13);
                         status = STATUS_DOWN3;
                     }
                 }
             }
-            if(status == STATUS_DOWN3){
-                if(getY() >= canvasHeight){
+            if (status == STATUS_DOWN3) {
+                if (getY() >= canvasHeight) {
                     destroy();
                 }
             }

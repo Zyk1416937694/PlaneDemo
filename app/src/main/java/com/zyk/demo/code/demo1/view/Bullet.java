@@ -7,7 +7,7 @@ import android.graphics.Bitmap;
  */
 public class Bullet extends AutoSprite {
 
-    public Bullet(Bitmap bitmap){
+    public Bullet(Bitmap bitmap) {
         super(bitmap);
         setSpeed(-10);//负数表示子弹向上飞
     }

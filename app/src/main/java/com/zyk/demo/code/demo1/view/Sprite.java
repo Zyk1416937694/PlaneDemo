@@ -19,70 +19,70 @@ public class Sprite {
     private boolean destroyed = false;
     private int frame = 0;//绘制的次数
 
-    public Sprite(Bitmap bitmap){
+    public Sprite(Bitmap bitmap) {
         this.bitmap = bitmap;
     }
 
-    public Bitmap getBitmap(){
+    public Bitmap getBitmap() {
         return bitmap;
     }
 
-    public void setVisibility(boolean visible){
+    public void setVisibility(boolean visible) {
         this.visible = visible;
     }
 
-    public boolean getVisibility(){
+    public boolean getVisibility() {
         return visible;
     }
 
-    public void setX(float x){
+    public void setX(float x) {
         this.x = x;
     }
 
-    public float getX(){
+    public float getX() {
         return x;
     }
 
-    public void setY(float y){
+    public void setY(float y) {
         this.y = y;
     }
 
-    public float getY(){
+    public float getY() {
         return y;
     }
 
-    public float getWidth(){
-        if(bitmap != null){
+    public float getWidth() {
+        if (bitmap != null) {
             return bitmap.getWidth();
         }
         return 0;
     }
 
-    public float getHeight(){
-        if(bitmap != null){
+    public float getHeight() {
+        if (bitmap != null) {
             return bitmap.getHeight();
         }
         return 0;
     }
 
-    public void move(float offsetX, float offsetY){
+    public void move(float offsetX, float offsetY) {
         x += offsetX;
         y += offsetY;
     }
 
-    public void moveTo(float x, float y){
+    public void moveTo(float x, float y) {
         this.x = x;
         this.y = y;
     }
 
-    public void centerTo(float centerX, float centerY){
+    public void centerTo(float centerX, float centerY) {
         float w = getWidth();
         float h = getHeight();
         x = centerX - w / 2;
         y = centerY - h / 2;
     }
 
-    public RectF getRectF(){
+    public RectF getRectF() {
         float left = x;
         float top = y;
         float right = left + getWidth();
@@ -91,16 +91,16 @@ public class Sprite {
         return rectF;
     }
 
-    public Rect getBitmapSrcRec(){
+    public Rect getBitmapSrcRec() {
         Rect rect = new Rect();
         rect.left = 0;
         rect.top = 0;
-        rect.right = (int)getWidth();
-        rect.bottom = (int)getHeight();
+        rect.right = (int) getWidth();
+        rect.bottom = (int) getHeight();
         return rect;
     }
 
-    public RectF getCollideRectF(){
+    public RectF getCollideRectF() {
         RectF rectF = getRectF();
         rectF.left -= collideOffset;
         rectF.right += collideOffset;
@@ -109,29 +109,30 @@ public class Sprite {
         return rectF;
     }
 
-    public Point getCollidePointWithOther(Sprite s){
+    public Point getCollidePointWithOther(Sprite s) {
         Point p = null;
         RectF rectF1 = getCollideRectF();
         RectF rectF2 = s.getCollideRectF();
         RectF rectF = new RectF();
         boolean isIntersect = rectF.setIntersect(rectF1, rectF2);
-        if(isIntersect){
+        if (isIntersect) {
             p = new Point(Math.round(rectF.centerX()), Math.round(rectF.centerY()));
         }
         return p;
     }
 
-    public final void draw(Canvas canvas, Paint paint, GameView1 gameView){
+    public final void draw(Canvas canvas, Paint paint, GameView1 gameView) {
         frame++;
         beforeDraw(canvas, paint, gameView);
         onDraw(canvas, paint, gameView);
         afterDraw(canvas, paint, gameView);
     }
 
-    protected void beforeDraw(Canvas canvas, Paint paint, GameView1 gameView){}
+    protected void beforeDraw(Canvas canvas, Paint paint, GameView1 gameView) {
+    }
 
-    public void onDraw(Canvas canvas, Paint paint, GameView1 gameView){
-        if(!destroyed && this.bitmap != null && getVisibility()){
+    public void onDraw(Canvas canvas, Paint paint, GameView1 gameView) {
+        if (!destroyed && this.bitmap != null && getVisibility()) {
             //将Sprite绘制到Canvas上
             Rect srcRef = getBitmapSrcRec();
             RectF dstRecF = getRectF();
@@ -140,18 +141,19 @@ public class Sprite {
         }
     }
 
-    protected void afterDraw(Canvas canvas, Paint paint, GameView1 gameView){}
+    protected void afterDraw(Canvas canvas, Paint paint, GameView1 gameView) {
+    }
 
-    public void destroy(){
+    public void destroy() {
         bitmap = null;
         destroyed = true;
     }
 
-    public boolean isDestroyed(){
+    public boolean isDestroyed() {
         return destroyed;
     }
 
-    public int getFrame(){
+    public int getFrame() {
         return frame;
     }
 }

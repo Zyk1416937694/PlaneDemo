@@ -15,23 +15,23 @@ public class EnemyPlane extends AutoSprite {
     private int power = 1;//敌机的抗打击能力
     private int value = 0;//打一个敌机的得分
 
-    public EnemyPlane(Bitmap bitmap){
+    public EnemyPlane(Bitmap bitmap) {
         super(bitmap);
     }
 
-    public void setPower(int power){
+    public void setPower(int power) {
         this.power = power;
     }
 
-    public int getPower(){
+    public int getPower() {
         return power;
     }
 
-    public void setValue(int value){
+    public void setValue(int value) {
         this.value = value;
     }
 
-    public int getValue(){
+    public int getValue() {
         return value;
     }
 
@@ -40,18 +40,18 @@ public class EnemyPlane extends AutoSprite {
         super.afterDraw(canvas, paint, gameView);
 
         //绘制完成后要检查自身是否被子弹打中
-        if(!isDestroyed()){
+        if (!isDestroyed()) {
             //敌机在绘制完成后要判断是否被子弹打中
 
             List<Bullet> bullets = gameView.getAliveBullets();
-            for(Bullet bullet : bullets){
+            for (Bullet bullet : bullets) {
                 //判断敌机是否与子弹相交
                 Point p = getCollidePointWithOther(bullet);
-                if(p != null){
+                if (p != null) {
                     //如果有交点，说明子弹打到了飞机上
                     bullet.destroy();
                     power--;
-                    if(power <= 0){
+                    if (power <= 0) {
                         //敌机已经没有能量了，执行爆炸效果
                         explode(gameView);
                         return;
@@ -62,7 +62,7 @@ public class EnemyPlane extends AutoSprite {
     }
 
     //创建爆炸效果后会销毁敌机
-    public void explode(GameView1 gameView){
+    public void explode(GameView1 gameView) {
         //创建爆炸效果
         float centerX = getX() + getWidth() / 2;
         float centerY = getY() + getHeight() / 2;
